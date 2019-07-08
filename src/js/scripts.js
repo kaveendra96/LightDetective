@@ -81,6 +81,7 @@ exifDataReader.onload = () => {
 		settingsDataContainer.innerHTML = settingsData
 		filledTemplate = template(exifData, filename)
 	} catch(err) {
+		console.error(err)
 		resultContainer.innerHTML = `<h3>Ouch, either no EXIF data to be found here or an issue.</h3>
 		<br/>
 		<a href="." class="retry">Try another file ↻</a>`

@@ -31,7 +31,7 @@ function sliderCell(label, sliderClass, value, min, max) {
 	<input
 	type="range"
 	class="slider ${sliderClass}"
-	value="${value}"
+	value="${value || 0}"
 	min="${min}"
 	max="${max}"
 	disabled
@@ -147,10 +147,10 @@ export function settings(exif) {
 	<div class="block">
 	<span class="label">Details</span>
 	<div class="cell">Sharpening</div>
-	${sliderCell('Amount', 'slider-blackred', exif.SharpenAmount.description, 0, 150)}
+	${sliderCell('Amount', 'slider-blackred', exif.Sharpness.description, 0, 150)}
 	${sliderCell('Radius', 'slider-bw', exif.SharpenRadius.description, 0.0, 3.0)}
-	${sliderCell('Details', 'slider-bw', exif.SharpenDetails.description, 0, 100)}
-	${sliderCell('Masking', 'slider-whiteblack', exif.SharpenMasking.description, 0, 100)}
+	${sliderCell('Detail', 'slider-bw', exif.SharpenDetail.description, 0, 100)}
+	${sliderCell('Masking', 'slider-whiteblack', exif.SharpenEdgeMasking.description, 0, 100)}
 	<div class="cell">Noise Reduction</div>
 	<span class="label">Luminosity</span>
 	${sliderCell('Amount', 'slider-bw', exif.LuminanceSmoothing.description, 0, 100)}
@@ -161,8 +161,6 @@ export function settings(exif) {
 	${sliderCell('Amount', 'slider-bw', exif.ColorNoiseReduction.description, 0, 100)}
 	${sliderCell('Detail', 'slider-bw', exif.ColorNoiseReductionDetail.description, 0, 100)}
 	${sliderCell('Smoothness', 'slider-bw', exif.ColorNoiseReductionSmoothness.description, 0, 100)}
-	Details
-	Smoothing
 	</div>
 	<div class="block">
 	<span class="label">Corrections</span>
