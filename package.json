@@ -2,7 +2,11 @@
   "name": "lightdetective",
   "version": "1.0.0",
   "description": "A client-side preset extractor for Adobe Lightroom adjustments",
-  "main": "index.html",
+	"main": "index.html",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/leifniem/LightDetective.git"
+	},
   "scripts": {
     "dev": "parcel src/index.html --global Transfer"
   },
