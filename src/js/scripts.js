@@ -72,7 +72,6 @@ imageReader.onload = () => {
 }
 
 exifDataReader.onload = () => {
-	console.log(exifData.UUID)
 	try{
 		let exifData = ExifReader.load(exifDataReader.result)
 		exifData.UUID = {
