@@ -7,7 +7,7 @@ export default (exif, filename) => {
 <rdf:Description rdf:about=""
 xmlns:crs="http://ns.adobe.com/camera-raw-settings/1.0/"
 crs:PresetType="Normal"
-crs:Cluster="
+crs:Cluster=""
 crs:SupportsAmount="False"
 crs:SupportsColor="True"
 crs:SupportsMonochrome="True"
@@ -18,8 +18,8 @@ crs:SupportsOutputReferred="True"
 crs:CameraModelRestriction=""
 crs:Copyright="Preset created by Light Detective"
 crs:ContactInfo=""
-Version: crs:Version="${exif.Version.description}"
-ProcessVersion: crs:ProcessVersion="${exif.ProcessVersion.description}"
+crs:Version="${exif.Version.description}"
+crs:ProcessVersion="${exif.ProcessVersion.description}"
 ${properties(exif)}
 >
 <crs:Name>
@@ -39,7 +39,7 @@ ${properties(exif)}
 </crs:SortName>
 <crs:Group>
 <rdf:Alt>
-<rdf:li xml:lang="x-default"/>
+<rdf:li xml:lang="x-default">Light Detective Imports</rdf:li>
 </rdf:Alt>
 </crs:Group>
 <crs:Description>

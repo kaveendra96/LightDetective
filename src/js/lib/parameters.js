@@ -11,25 +11,25 @@ export default exif => {
 }
 
 const parameters = {
-	Look(exif) {
-		return `<crs:Look>
-<rdf:Description
-crs:Name="${exif.Look.value.Name.description}"
-crs:Amount="${exif.Look.value.Amount.description}"
-crs:UUID="${exif.Look.value.UUID.description}"
-crs:SupportsAmount="${exif.Look.value.SupportsAmount.description}"
-crs:SupportsMonochrome="${exif.Look.value.SupportsMonochrome.description}"
-crs:SupportsOutputReferred="${
-			exif.Look.value.SupportsOutputReferred.description
-		}"crs:Stubbed="true">
-<crs:Group>
-<rdf:Alt>
-<rdf:li xml:lang="x-default">${exif.Look.value.Group.value.description}</rdf:li>
-</rdf:Alt>
-</crs:Group>
-</rdf:Description>
-</crs:Look>`
-	},
+// 	Look(exif) {
+// 		return `<crs:Look>
+// <rdf:Description
+// crs:Name="${exif.Look.value.Name.description}"
+// crs:Amount="${exif.Look.value.Amount.description}"
+// crs:UUID="${exif.Look.value.UUID.description}"
+// crs:SupportsAmount="${exif.Look.value.SupportsAmount.description}"
+// crs:SupportsMonochrome="${exif.Look.value.SupportsMonochrome.description}"
+// crs:SupportsOutputReferred="${
+// 			exif.Look.value.SupportsOutputReferred.description
+// 		}"crs:Stubbed="true">
+// <crs:Group>
+// <rdf:Alt>
+// <rdf:li xml:lang="x-default">${exif.Look.value.Group.value.description}</rdf:li>
+// </rdf:Alt>
+// </crs:Group>
+// </rdf:Description>
+// </crs:Look>`
+// 	},
 	ToneCurvePV2012(exif) {
 		return `<crs:ToneCurvePV2012>
 <rdf:Seq>

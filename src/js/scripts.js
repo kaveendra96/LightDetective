@@ -72,22 +72,26 @@ imageReader.onload = () => {
 }
 
 exifDataReader.onload = () => {
-	const exifData = ExifReader.load(exifDataReader.result)
-	let metaData
+	let exifData = ExifReader.load(exifDataReader.result)
+	exifData.UUID = {
+		description: createUUID()
+	}
+	console.log(exifData.UUID)
 	try{
-		metaData = meta(exifData, filename)
+		let metaData = meta(exifData, filename)
 		metaDataContainer.innerHTML = metaData
+		filledTemplate = template(exifData, filename)
 	} catch(err) {
 		resultContainer.innerHTML = `<h3>Ouch, no EXIF data to be found here.</h3>
 		<br/>
 		<a href="." class="retry">Try another file ↻</a>`
 	}
-	filledTemplate = template(exifData, filename)
 }
 
 function downloadPreset () {
 	let fileURL = null
 	link.href=null
+	console.log(filledTemplate)
 	let data = new Blob([filledTemplate], {type: 'application/rdf+xml'})
 	// if (fileURL !== null) {
 	// 	window.URL.revokeObjectURL(fileURL)
@@ -96,4 +100,14 @@ function downloadPreset () {
 	saveAs(data, `${filename.replace(/\.\w*$/, "")}.xmp`)
 	// link.href = fileURL
 	// link.click()
+}
+
+function createUUID(){
+	var dt = new Date().getTime();
+	var uuid = 'xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+			var r = (dt + Math.random()*16)%16 | 0;
+			dt = Math.floor(dt/16);
+			return (c=='x' ? r :(r&0x3|0x8)).toString(16);
+	});
+	return uuid.toUpperCase();
 }
