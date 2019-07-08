@@ -8,7 +8,8 @@
 		"url": "https://github.com/leifniem/LightDetective.git"
 	},
   "scripts": {
-    "dev": "parcel src/index.html --global Transfer"
+    "dev": "parcel src/index.html --global Transfer",
+    "build": "parcel build src/index.html --global Transfer"
   },
   "keywords": [
     "lightroom",
