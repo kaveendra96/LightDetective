@@ -23,7 +23,7 @@ img {
 	width: 90%;
 	max-width: 864px;
 	margin: 0 auto;
-	padding: 7rem 1.5rem 3rem 1.5rem;
+	padding: 7rem 0 3rem 0;
 	text-align: center;
 	z-index: 5;
 	position: relative;
@@ -50,7 +50,7 @@ img {
 }
 
 h1 a{
-	font-size: 4rem;
+	font-size: 3.5rem;
 	letter-spacing: 0.2rem;
 	margin: 0 0 1rem 0;
 	color: #e2e2ee;
@@ -79,16 +79,15 @@ h1 a{
 	margin-bottom: 2rem;
 }
 
-#image-upload {
-	padding: 1.5rem;
-	/* display: grid;
-	grid-template-columns: 1fr 1fr; */
-}
-
 .highlight {
 	background: #dbdbe7;
 	color: #4c4c53;
 }
+
+#image-upload {
+	padding: 1.5rem;
+}
+
 
 a {
 	display: inline-block;
@@ -96,11 +95,16 @@ a {
 	text-decoration: none;
 }
 
-#preview{
-	border: 3px solid #dbdbe7;
+.result-container{
+	background: #111;
+	padding: 2rem;
+	border-radius: 0.5rem;
 }
 
 #result {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-gap: 3rem 1rem;
 	text-align: left;
 }
 
@@ -109,19 +113,17 @@ h2{
 	line-height: 1;
 	font-size: 2rem;
 	text-align: left;
+	align-self: center;
 }
 
-.results-header{
-	display: grid;
-	grid-template-columns: repeat(3, 1fr);
-	align-items: center;
+.retry{
+	align-self: center;
 	text-align: right;
-	margin-bottom: 2rem;
 }
 
 #header-image{
 	width: 100%;
-	height: 50vh;
+	height: 30rem;
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -147,4 +149,10 @@ h2{
 footer{
 	margin-top: 5rem;
 	color: #4c4c53;
+}
+
+@media screen and (max-width: 640px){
+	#result{
+		grid-template-columns: 1fr;
+	}
 }

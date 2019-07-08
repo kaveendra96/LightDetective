@@ -25,7 +25,7 @@
 							id="image-input"
 							class="hidden"
 							accept="image/jpeg"
-							onchange="handleFiles(this.files)"
+							onchange="Transfer.processFile(this.files[0])"
 						/>
 						<label class="button" for="image-input"
 							>Choose file</label
@@ -41,16 +41,14 @@
 			<a> </a>
 			<div class="result-container hidden">
 				<div id="result">
-					<div class="results-header">
 						<h2>Results</h2>
 						<button class="button download">Download Preset</button>
 						<a href="." class="retry hidden">Try another file ↻</a>
-					</div>
 					<div class="meta"></div>
 				</div>
 			</div>
 			<a href="#" class="hidden download-link"></a>
-			<script src="scripts.js"></script>
+			<script src="js/scripts.js"></script>
 			<footer>
 				&copy; 2019 by Leif Niemczik -
 				<a
