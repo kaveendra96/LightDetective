@@ -72,17 +72,17 @@ imageReader.onload = () => {
 }
 
 exifDataReader.onload = () => {
-	let exifData = ExifReader.load(exifDataReader.result)
-	exifData.UUID = {
-		description: createUUID()
-	}
 	console.log(exifData.UUID)
 	try{
+		let exifData = ExifReader.load(exifDataReader.result)
+		exifData.UUID = {
+			description: createUUID()
+		}
 		let metaData = meta(exifData, filename)
 		metaDataContainer.innerHTML = metaData
 		filledTemplate = template(exifData, filename)
 	} catch(err) {
-		resultContainer.innerHTML = `<h3>Ouch, no EXIF data to be found here.</h3>
+		resultContainer.innerHTML = `<h3>Ouch, either no EXIF data to be found here or an issue.</h3>
 		<br/>
 		<a href="." class="retry">Try another file ↻</a>`
 	}
@@ -91,7 +91,6 @@ exifDataReader.onload = () => {
 function downloadPreset () {
 	let fileURL = null
 	link.href=null
-	console.log(filledTemplate)
 	let data = new Blob([filledTemplate], {type: 'application/rdf+xml'})
 	// if (fileURL !== null) {
 	// 	window.URL.revokeObjectURL(fileURL)
