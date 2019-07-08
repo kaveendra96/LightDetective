@@ -13,32 +13,7 @@
 				<h1><a href=".">Light Detective</a></h1>
 				<span class="subheadline">Lightroom Data Extractor</span>
 			</div>
-			<div id="drop">
-				<form id="image-upload">
-					<div class="drop-text">
-						Drop image
-					</div>
-					<div class="upload">
-						Or upload
-						<input
-							type="file"
-							id="image-input"
-							class="hidden"
-							accept="image/jpeg"
-							onchange="Transfer.processFile(this.files[0])"
-						/>
-						<label class="button" for="image-input"
-							>Choose file</label
-						>
-					</div>
-				</form>
-				<p>to extract information</p>
-				<span class="label"
-					>This tool is intended for educational purposes only. Output
-					results may not be used for commercial purposes.</span
-				>
-			</div>
-			<div class="result-container hidden">
+			<div class="result-container">
 				<div id="result">
 					<h2>Results</h2>
 					<button class="button download">Download Preset</button>
@@ -48,7 +23,7 @@
 				</div>
 			</div>
 			<a href="#" class="hidden download-link"></a>
-			<script src="js/scripts.js"></script>
+			<script src="js/result_testing.js"></script>
 			<footer>
 				&copy; 2019 by Leif Niemczik -
 				<a

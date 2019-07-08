@@ -1,18 +1,16 @@
 import ExifReader from "exifreader"
 import { saveAs } from "file-saver"
 import template from "./lib/template"
-import meta from "./lib/meta"
+import meta, {settings} from "./lib/meta"
 
 const dropArea = document.querySelector("#drop")
-const uploadForm = document.querySelector("#image-upload")
 const resultContainer = document.querySelector(".result-container")
-const preview = document.querySelector("#preview")
-const result = document.querySelector("#result")
 const retry = document.querySelector(".retry")
 const download = document.querySelector(".download")
 let link = document.querySelector(".download-link")
 let headerImage = document.querySelector("#header-image")
 let metaDataContainer = document.querySelector(".meta")
+let settingsDataContainer = document.querySelector('.settings')
 
 const exifDataReader = new FileReader()
 const imageReader = new FileReader()
@@ -57,7 +55,7 @@ function getFile(e){
 }
 
 export function processFile(file) {
-	// TODO: add loading indicator
+	dropArea.classList.add("loading")
 	filename = file.name
 	imageReader.readAsDataURL(file)
   exifDataReader.readAsArrayBuffer(file)
@@ -65,7 +63,6 @@ export function processFile(file) {
 
 imageReader.onload = () => {
 	dropArea.classList.add("hidden")
-	retry.classList.remove("hidden")
 	resultContainer.classList.remove("hidden")
 	headerImage.style.background=`linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,1)) top center, url(${imageReader.result}) center`
 	headerImage.style.backgroundSize = "cover, cover"
@@ -77,8 +74,11 @@ exifDataReader.onload = () => {
 		exifData.UUID = {
 			description: createUUID()
 		}
+		if (!exifData.ProcessVersion) throw new Error()
 		let metaData = meta(exifData, filename)
 		metaDataContainer.innerHTML = metaData
+		let settingsData = settings(exifData)
+		settingsDataContainer.innerHTML = settingsData
 		filledTemplate = template(exifData, filename)
 	} catch(err) {
 		resultContainer.innerHTML = `<h3>Ouch, either no EXIF data to be found here or an issue.</h3>
