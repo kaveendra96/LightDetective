@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Light Detective</title>
+		<link rel="stylesheet" href="/style.e308ff8e.css">
+	<script src="/style.e308ff8e.js"></script></head>
+	<body>
+		<div id="header-image"></div>
+		<div class="wrapper">
+			<div class="headline">
+				<h1><a href=".">Light Detective</a></h1>
+				<span class="subheadline">Lightroom Data Extractor</span>
+			</div>
+			<div id="drop">
+				<form id="image-upload">
+					<div class="drop-text">
+						Drop image
+					</div>
+					<div class="upload">
+						Or upload
+						<input type="file" id="image-input" class="hidden" accept="image/jpeg" onchange="handleFiles(this.files)">
+						<label class="button" for="image-input">Choose file</label>
+					</div>
+				</form>
+				<p>to extract information</p>
+				<span class="label">This tool is intended for educational purposes only. Output
+					results may not be used for commercial purposes.</span>
+			</div>
+			<a> </a>
+			<div class="result-container hidden">
+				<div id="result">
+					<div class="results-header">
+						<h2>Results</h2>
+						<button class="button download">Download Preset</button>
+						<a href="." class="retry hidden">Try another file ↻</a>
+					</div>
+					<div class="meta"></div>
+				</div>
+			</div>
+			<a href="#" class="hidden download-link"></a>
+			<script src="/scripts.b71a6038.js"></script>
+			<footer>
+				&copy; 2019 by Leif Niemczik -
+				<a href="https://github.com/leifniem/LightDetective" target="_blank" rel="noreferrer noopener">Github</a>
+				- Header Photos from
+				<a href="https://unsplash.com" target="_blank" rel="noreferrer noopener">Unsplash</a>
+			</footer>
+		</div>
+	</body>
+</html>

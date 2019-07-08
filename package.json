@@ -1,0 +1,20 @@
+{
+  "name": "lightdetective",
+  "version": "1.0.0",
+  "description": "A client-side preset extractor for Adobe Lightroom adjustments",
+  "main": "index.html",
+  "scripts": {
+    "dev": "parcel src/index.html"
+  },
+  "keywords": [
+    "lightroom",
+    "exif",
+    "preset"
+  ],
+  "author": "Leif Niemczik",
+  "license": "ISC",
+  "devDependencies": {
+    "exifreader": "^2.8.2",
+    "parcel-bundler": "^1.12.3"
+  }
+}
