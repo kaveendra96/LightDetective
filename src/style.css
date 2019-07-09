@@ -235,8 +235,8 @@ input {
 	border: none;
 	border-radius: 50px;
 	appearance: none;
-	height: 5px;
-	border: 1px solid #4c4c53;
+	height: 4px;
+	/* border: 1px solid #4c4c53; */
 }
 
 .slider::range-thumb {
@@ -251,17 +251,17 @@ input {
 }
 
 .slider-bw::range-track {
-	background: linear-gradient(90deg, black, white);
+	background: linear-gradient(90deg, #333339, #e2e2ee);
 }
 
 .slider-blackblue::range-track {
-	background: linear-gradient(90deg, black, blue);
+	background: linear-gradient(90deg, #333339, blue);
 }
 .slider-blackgreen::range-track {
-	background: linear-gradient(90deg, black, green);
+	background: linear-gradient(90deg, #333339, green);
 }
 .slider-blackred::range-track {
-	background: linear-gradient(90deg, black, red);
+	background: linear-gradient(90deg, #333339, red);
 }
 .slider-aquapurple::range-track {
 	background: linear-gradient(90deg, aqua, purple);
