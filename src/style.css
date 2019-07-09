@@ -30,12 +30,26 @@ img {
 	top: 0;
 }
 
+#header-image {
+	width: 100%;
+	height: 30rem;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	background: linear-gradient(180deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)) top
+			center,
+		url(https://source.unsplash.com/random/1200x600) center no-repeat;
+	background-size: cover, cover;
+	pointer-events: none;
+}
+
 .button {
 	padding: 10px 15px;
 	background: #dbdbe7;
 	color: #000;
 	border-radius: 10px;
-	font-size: .8rem;
+	font-size: 0.8rem;
 	border: 0;
 	outline: none;
 }
@@ -49,7 +63,7 @@ img {
 	box-shadow: inset 0 3px 0 #4c4c53;
 }
 
-h1 a{
+h1 a {
 	font-size: 3.5rem;
 	letter-spacing: 0.2rem;
 	margin: 0 0 1rem 0;
@@ -58,24 +72,24 @@ h1 a{
 	display: inline;
 }
 
-.headline{
+.headline {
 	margin-bottom: 7rem;
 }
 
-.subheadline{
+.subheadline {
 	color: #a1a1ac;
-	letter-spacing: .5rem;
+	letter-spacing: 0.5rem;
 }
 
-#drop{
+#drop {
 	background: #111;
 	border: 3px dotted #4c4c53;
-	border-radius: .5rem;
+	border-radius: 0.5rem;
 	padding: 1.5rem 0;
 	position: relative;
 }
 
-.drop-text{
+.drop-text {
 	font-size: 2rem;
 	margin-bottom: 2rem;
 }
@@ -88,13 +102,12 @@ h1 a{
 	padding: 1.5rem;
 }
 
-#drop.loading{
+#drop.loading {
 	border: none;
-
 }
 
-.loading:after{
-	content: "Processing Image.";
+.loading:after {
+	content: 'Processing Image.';
 	font-size: 2.5rem;
 	padding: 1rem;
 	font-weight: bold;
@@ -103,14 +116,13 @@ h1 a{
 	left: 0;
 	right: 0;
 	bottom: 0;
-	background: rgba(17,17,17,0.9);
+	background: rgba(17, 17, 17, 0.9);
 	z-index: 5;
-	border-radius: .5rem;
+	border-radius: 0.5rem;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 }
-
 
 a {
 	display: inline-block;
@@ -118,7 +130,7 @@ a {
 	text-decoration: none;
 }
 
-.result-container{
+.result-container {
 	background: #111;
 	padding: 2rem;
 	border-radius: 0.5rem;
@@ -132,45 +144,33 @@ a {
 	position: relative;
 }
 
-.settings{
+.settings {
 	grid-column: 2/-1;
 	columns: 2;
 	column-gap: 1rem;
 }
 
-.settings h3{
+.settings h3 {
 	column-span: all;
 }
 
-.block{
-	margin-bottom: .75rem;
-	padding-bottom: .75rem;
+.block {
+	margin-bottom: 0.72rem;
+	padding-bottom: 0.72rem;
 	border-bottom: 2px dotted #2c2c2e;
 	break-inside: avoid;
 }
 
-.cell{
+.cell {
 	display: flex;
 	justify-content: space-between;
 }
 
-.slider-value{
-	font-size: 80%;
-	align-self: center;
-	margin-right: 0.5rem;
-}
-
-.slider-cell div{
-	flex: 0 1 60%;
-	display: flex;
-	justify-content: flex-end;
-}
-
-.value{
+.value {
 	font-family: 'Courier New', 'Courier', 'Monaco', monospace;
 }
 
-h2{
+h2 {
 	margin: 0 2rem 0 0;
 	line-height: 1;
 	font-size: 2rem;
@@ -178,156 +178,122 @@ h2{
 	align-self: center;
 }
 
-.retry{
+.retry {
 	align-self: center;
 	text-align: right;
 }
 
-#header-image{
-	width: 100%;
-	height: 30rem;
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	background: linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,1)) top center, url(https://source.unsplash.com/random/1200x600) center no-repeat;
-	background-size: cover, cover;
-	pointer-events: none;
+.hsl-values {
+	display: grid;
+	grid-template-columns: 2fr repeat(3, 1fr);
 }
 
 .hidden {
 	display: none;
 }
 
-.label{
+.label {
 	font-size: 0.8rem;
 	line-height: 1.6rem;
 	display: block;
 	color: #4c4c53;
 }
 
-footer{
+footer {
 	margin-top: 5rem;
 	color: #4c4c53;
 }
 
 /* Sliders */
-input{
-	background: #111;
+.slider-value {
+	font-size: 80%;
+	align-self: center;
+	width: 2.4rem;
+	text-align: right;
+	margin-right: 0.5rem;
 }
 
-input[type=range] {
-  -webkit-appearance: none;
-  width: 100%;
-  margin: 6px 0;
+.slider-cell div {
+	flex: 0 1 60%;
+	display: flex;
+	justify-content: flex-end;
+}
+
+input {
+	background: transparent;
+}
+
+.slider {
+	appearance: none;
+	width: 100%;
+	margin: 6px 0;
 	outline: none;
 }
 
-input[type=range]::-webkit-slider-runnable-track {
-  width: 100%;
-  height: 5px;
-  background: #4c4c53;
-  border-radius: 25px;
-  border: none;
-}
-input[type=range]::-webkit-slider-thumb {
-  border: none;
-  height: 10px;
-  width: 10px;
-  border-radius: 50px;
-  background: #e2e2ee;
-  cursor: pointer;
-  -webkit-appearance: none;
-  margin-top: -3px;
+.slider::range-track {
+	background: #4c4c53;
+	border: none;
+	border-radius: 50px;
+	appearance: none;
+	height: 5px;
+	border: 1px solid #4c4c53;
 }
 
-input[type=range]::-moz-range-track {
-  width: 100%;
-  height: 5px;
-  background: #4c4c53;
-  border-radius: 25px;
-  border: none;
-}
-input[type=range]::-moz-range-thumb {
-  border: none;
-  height: 10px;
-  width: 10px;
-  border-radius: 50px;
-  background: #e2e2ee;
-  cursor: pointer;
-}
-input[type=range]::-ms-track {
-  width: 100%;
-  height: 5px;
-  background: transparent;
-  border-color: transparent;
-  color: transparent;
-}
-input[type=range]::-ms-fill-lower {
-  background: #4c4c53;
-  border: none;
-  border-radius: 50px;
-}
-input[type=range]::-ms-fill-upper {
-  background: #4c4c53;
-  border: none;
-  border-radius: 50px;
-}
-input[type=range]::-ms-thumb {
-  border: none;
-  height: 10px;
-  width: 10px;
-  border-radius: 50px;
-  background: #e2e2ee;
-  height: 10px;
+.slider::range-thumb {
+	appearance: none;
+	border: none;
+	height: 10px;
+	width: 10px;
+	margin-top: -3px;
+	border-radius: 50px;
+	background: #e2e2ee;
+	height: 10px;
 }
 
-.slider-aquapurple{
-
-}
-.slider-blackblue{
-
-}
-.slider-blackgreen{
-
-}
-.slider-blackred{
-
-}
-.slider-bw{
-
-}
-.slider-magentaorange{
-
-}
-.slider-temperature{
-
-}
-.slider-tint{
-
-}
-.slider-value{
-
-}
-.slider-whiteblack{
-
-}
-.slider-yellowaqua{
-
+.slider-bw::range-track {
+	background: linear-gradient(90deg, black, white);
 }
 
-@media screen and (max-width: 960px){
-	.retry{
+.slider-blackblue::range-track {
+	background: linear-gradient(90deg, black, blue);
+}
+.slider-blackgreen::range-track {
+	background: linear-gradient(90deg, black, green);
+}
+.slider-blackred::range-track {
+	background: linear-gradient(90deg, black, red);
+}
+.slider-aquapurple::range-track {
+	background: linear-gradient(90deg, aqua, purple);
+}
+.slider-magentaorange::range-track {
+	background: linear-gradient(90deg, magenta, orange);
+}
+.slider-temperature::range-track {
+	background: linear-gradient(90deg, lightblue, goldenrod);
+}
+.slider-tint::range-track {
+	background: linear-gradient(90deg, lime, magenta);
+}
+.slider-whiteblack::range-track {
+	background: linear-gradient(90deg, white, black);
+}
+.slider-yellowaqua::range-track {
+	background: linear-gradient(90deg, yellow, aqua);
+}
+
+@media screen and (max-width: 960px) {
+	.retry {
 		position: absolute;
 		top: 0;
 		right: 0;
 	}
 
-	#result{
+	#result {
 		grid-template-columns: 1fr;
 	}
 
-	.settings{
+	.settings {
 		columns: 1;
 		grid-column: 1;
 	}
