@@ -281,12 +281,6 @@ input[type=range]::-ms-thumb {
   background: #e2e2ee;
   height: 10px;
 }
-input[type=range]:focus::-ms-fill-lower {
-  background: #4c4c53;
-}
-input[type=range]:focus::-ms-fill-upper {
-  background: #4c4c53;
-}
 
 .slider-aquapurple{
 

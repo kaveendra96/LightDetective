@@ -75,6 +75,7 @@ exifDataReader.onload = () => {
 			description: createUUID()
 		}
 		if (!exifData.ProcessVersion) throw new Error()
+		console.log(exifData)
 		let metaData = meta(exifData, filename)
 		metaDataContainer.innerHTML = metaData
 		let settingsData = settings(exifData)

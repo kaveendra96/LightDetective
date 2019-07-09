@@ -42,7 +42,6 @@ function sliderCell(label, sliderClass, value, min, max) {
 }
 
 export function settings(exif) {
-	console.log(exif)
 	return `
 	<h3>Settings</h3>
 	<div class="block">
@@ -226,20 +225,28 @@ export function settings(exif) {
 		0,
 		100
 	)}
-	${sliderCell(
-		'Detail',
-		'slider-bw',
-		exif.LuminanceNoiseReductionDetail.description,
-		0,
-		100
-	)}
-	${sliderCell(
-		'Contrast',
-		'slider-bw',
-		exif.LuminanceNoiseReductionContrast.description,
-		0,
-		100
-	)}
+	${
+		exif['LuminanceNoiseReductionDetail']
+			? sliderCell(
+					'Detail',
+					'slider-bw',
+					exif.LuminanceNoiseReductionDetail.description,
+					0,
+					100
+			  )
+			: ''
+	}
+	${
+		exif['LuminanceNoiseReductionContrast']
+			? sliderCell(
+					'Contrast',
+					'slider-bw',
+					exif.LuminanceNoiseReductionContrast.description,
+					0,
+					100
+			  )
+			: ''
+	}
 	<div class="cell">Color</div>
 	<span class="label">Color</span>
 	${sliderCell(
@@ -268,13 +275,16 @@ export function settings(exif) {
 	<span class="label">Corrections</span>
 	<span class="label">Lens Correction</span>
 		<div class="cell">Distortion <span>${
-			exif.DistortionCorrectionAlreadyApplied.description
+			exif.DistortionCorrectionAlreadyApplied ?
+			exif.DistortionCorrectionAlreadyApplied.description : "False"
 		}</span></div>
 		<div class="cell">Vignette <span>${
-			exif.VignetteCorrectionAlreadyApplied.description
+			exif.VignetteCorrectionAlreadyApplied ?
+			exif.VignetteCorrectionAlreadyApplied.description : 'False'
 		}</span></div>
 		<div class="cell">CA <span>${
-			exif.LateralChromaticAberrationCorrectionAlreadyApplied.description
+			exif.LateralChromaticAberrationCorrectionAlreadyApplied ?
+			exif.LateralChromaticAberrationCorrectionAlreadyApplied.description : 'False'
 		}</span></div>
 		<div class="cell">Upright <span>${
 			parseInt(exif.PerspectiveUpright.description) >= 1
@@ -286,46 +296,46 @@ export function settings(exif) {
 	<span class="label">Effects</span>
 	<div>
 	<span class="label">Vignette</span>
-	${sliderCell(
+	${ exif.PostCropVignetteAmount ? sliderCell(
 		'Amount',
 		'slider-bw',
 		exif.PostCropVignetteAmount.description,
 		-100,
 		+100
-	)}
-	${sliderCell(
+	) : ''}
+	${ exif.PostCropVignetteMidpoint ? sliderCell(
 		'Midpoint',
 		'slider-bw',
 		exif.PostCropVignetteMidpoint.description,
 		0,
 		100
-	)}
-	${sliderCell(
+	) : ''}
+	${ exif.PostCropVignetteRoundness ? sliderCell(
 		'Roundness',
 		'slider-bw',
 		exif.PostCropVignetteRoundness.description,
 		-100,
 		+100
-	)}
-	${sliderCell(
+	) : ''}
+	${ exif.PostCropVignetteFeather ? sliderCell(
 		'Feather',
 		'slider-bw',
 		exif.PostCropVignetteFeather.description,
 		0,
 		100
-	)}
-	${sliderCell(
+	) : ''}
+	${ exif.PostCropVignetteHighlightContrast ? sliderCell(
 		'Highlights',
 		'slider-bw',
 		exif.PostCropVignetteHighlightContrast.description,
 		0,
 		100
-	)}
+	) : ''}
 	</div>
 	<div class="cell">Grain</div>
-	${sliderCell('Amount', 'slider-bw', exif.GrainAmount.description, 0, 100)}
-	${sliderCell('Size', 'slider-bw', exif.GrainSize.description, 0, 100)}
-	${sliderCell('Frequency', 'slider-bw', exif.GrainFrequency.description, 0, 100)}
+	${exif.GrainAmount ? sliderCell('Amount', 'slider-bw', exif.GrainAmount.description, 0, 100) : ''}
+	${exif.GrainSize ? sliderCell('Size', 'slider-bw', exif.GrainSize.description, 0, 100) : ''}
+	${exif.GrainFrequency ? sliderCell('Frequency', 'slider-bw', exif.GrainFrequency.description, 0, 100) : ''}
 	</div>
 	<div class="block">
 	<span class="label">Calibration</span>
