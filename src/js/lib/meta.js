@@ -48,18 +48,42 @@ export function settings(exif) {
 	<div class="block">
 	<span class="label">Look</span>
 	<div class="cell">${exif.Look.value.Name.description}</div>
-	${sliderCell('Amount', 'slider-bw', Math.round(exif.Look.value.Amount.description * 10) / 10, 0, 1)}
+	${sliderCell(
+		'Amount',
+		'slider-bw',
+		Math.round(exif.Look.value.Amount.description * 10) / 10,
+		0,
+		1
+	)}
 	</div>
 	<div class="block">
 	<span class="label">White Balance</span>
 	${exif.WhiteBalance.description}
-	${sliderCell('Temp', 'slider-temperature', exif.Temperature.description, 2000, 50000)}
+	${sliderCell(
+		'Temp',
+		'slider-temperature',
+		exif.Temperature.description,
+		2000,
+		50000
+	)}
 	${sliderCell('Tint', 'slider-tint', exif.Tint.description, -150, +150)}
 	</div>
 	<div class="block">
 	${sliderCell('Exposure', 'slider-bw', exif.Exposure2012.description, -5, +5)}
-	${sliderCell('Contrast', 'slider-bw', exif.Contrast2012.description, -100, +100)}
-	${sliderCell('Highlights', 'slider-bw', exif.Highlights2012.description, -100, +100)}
+	${sliderCell(
+		'Contrast',
+		'slider-bw',
+		exif.Contrast2012.description,
+		-100,
+		+100
+	)}
+	${sliderCell(
+		'Highlights',
+		'slider-bw',
+		exif.Highlights2012.description,
+		-100,
+		+100
+	)}
 	${sliderCell('Shadows', 'slider-bw', exif.Shadows2012.description, -100, +100)}
 	${sliderCell('Whites', 'slider-bw', exif.Whites2012.description, -100, +100)}
 	${sliderCell('Blacks', 'slider-bw', exif.Blacks2012.description, -100, +100)}
@@ -69,7 +93,13 @@ export function settings(exif) {
 	${sliderCell('Clarity', 'slider-bw', exif.Clarity2012.description, -100, +100)}
 	${sliderCell('Dehaze', 'slider-bw', exif.Dehaze.description, -100, +100)}
 	${sliderCell('Vibrance', 'slider-bw', exif.Vibrance.description, -100, +100)}
-	${sliderCell('Saturation', 'slider-bw', exif.Saturation.description, -100, +100)}
+	${sliderCell(
+		'Saturation',
+		'slider-bw',
+		exif.Saturation.description,
+		-100,
+		+100
+	)}
 	</div>
 	<div class="block">
 	<span class="label">Curves</span>
@@ -136,13 +166,43 @@ export function settings(exif) {
 	<div class="block">
 	<span class="label">Split Toning</span>
 	<span class="label">Shadows</span>
-	${sliderCell('Hue', 'slider-bw', exif.SplitToningShadowHue.description, -100, +100)}
-	${sliderCell('Saturation', 'slider-blackred', exif.SplitToningShadowSaturation.description, -100, +100)}
+	${sliderCell(
+		'Hue',
+		'slider-bw',
+		exif.SplitToningShadowHue.description,
+		-100,
+		+100
+	)}
+	${sliderCell(
+		'Saturation',
+		'slider-blackred',
+		exif.SplitToningShadowSaturation.description,
+		-100,
+		+100
+	)}
 	<span class="label">Highlights</span>
-	${sliderCell('Hue', 'slider-bw', exif.SplitToningHighlightHue.description, -100, +100)}
-	${sliderCell('Saturation', 'slider-blackred', exif.SplitToningHighlightSaturation.description, -100, +100)}
+	${sliderCell(
+		'Hue',
+		'slider-bw',
+		exif.SplitToningHighlightHue.description,
+		-100,
+		+100
+	)}
+	${sliderCell(
+		'Saturation',
+		'slider-blackred',
+		exif.SplitToningHighlightSaturation.description,
+		-100,
+		+100
+	)}
 	<span class="label">Balance</span>
-	${sliderCell('Balance', 'slider-bw', exif.SplitToningBalance.description, -100, +100)}
+	${sliderCell(
+		'Balance',
+		'slider-bw',
+		exif.SplitToningBalance.description,
+		-100,
+		+100
+	)}
 	</div>
 	<div class="block">
 	<span class="label">Details</span>
@@ -150,42 +210,169 @@ export function settings(exif) {
 	${sliderCell('Amount', 'slider-blackred', exif.Sharpness.description, 0, 150)}
 	${sliderCell('Radius', 'slider-bw', exif.SharpenRadius.description, 0.0, 3.0)}
 	${sliderCell('Detail', 'slider-bw', exif.SharpenDetail.description, 0, 100)}
-	${sliderCell('Masking', 'slider-whiteblack', exif.SharpenEdgeMasking.description, 0, 100)}
+	${sliderCell(
+		'Masking',
+		'slider-whiteblack',
+		exif.SharpenEdgeMasking.description,
+		0,
+		100
+	)}
 	<div class="cell">Noise Reduction</div>
 	<span class="label">Luminosity</span>
-	${sliderCell('Amount', 'slider-bw', exif.LuminanceSmoothing.description, 0, 100)}
-	${sliderCell('Detail', 'slider-bw', exif.LuminanceNoiseReductionDetail.description, 0, 100)}
-	${sliderCell('Contrast', 'slider-bw', exif.LuminanceNoiseReductionContrast.description, 0, 100)}
+	${sliderCell(
+		'Amount',
+		'slider-bw',
+		exif.LuminanceSmoothing.description,
+		0,
+		100
+	)}
+	${sliderCell(
+		'Detail',
+		'slider-bw',
+		exif.LuminanceNoiseReductionDetail.description,
+		0,
+		100
+	)}
+	${sliderCell(
+		'Contrast',
+		'slider-bw',
+		exif.LuminanceNoiseReductionContrast.description,
+		0,
+		100
+	)}
 	<div class="cell">Color</div>
 	<span class="label">Color</span>
-	${sliderCell('Amount', 'slider-bw', exif.ColorNoiseReduction.description, 0, 100)}
-	${sliderCell('Detail', 'slider-bw', exif.ColorNoiseReductionDetail.description, 0, 100)}
-	${sliderCell('Smoothness', 'slider-bw', exif.ColorNoiseReductionSmoothness.description, 0, 100)}
+	${sliderCell(
+		'Amount',
+		'slider-bw',
+		exif.ColorNoiseReduction.description,
+		0,
+		100
+	)}
+	${sliderCell(
+		'Detail',
+		'slider-bw',
+		exif.ColorNoiseReductionDetail.description,
+		0,
+		100
+	)}
+	${sliderCell(
+		'Smoothness',
+		'slider-bw',
+		exif.ColorNoiseReductionSmoothness.description,
+		0,
+		100
+	)}
 	</div>
 	<div class="block">
 	<span class="label">Corrections</span>
-	<div class="cell">Lens Correction</div>
-	<div class="cell">Upright</div>
+	<span class="label">Lens Correction</span>
+		<div class="cell">Distortion <span>${
+			exif.DistortionCorrectionAlreadyApplied.description
+		}</span></div>
+		<div class="cell">Vignette <span>${
+			exif.VignetteCorrectionAlreadyApplied.description
+		}</span></div>
+		<div class="cell">CA <span>${
+			exif.LateralChromaticAberrationCorrectionAlreadyApplied.description
+		}</span></div>
+		<div class="cell">Upright <span>${
+			parseInt(exif.PerspectiveUpright.description) >= 1
+				? 'True'
+				: 'False'
+		}</span></div>
 	</div>
 	<div class="block">
 	<span class="label">Effects</span>
-	<div class="cell">Vignette</div>
-	Amount
-	Midpoint
-	Roundness
-	Feather
-	Highlights
+	<div>
+	<span class="label">Vignette</span>
+	${sliderCell(
+		'Amount',
+		'slider-bw',
+		exif.PostCropVignetteAmount.description,
+		-100,
+		+100
+	)}
+	${sliderCell(
+		'Midpoint',
+		'slider-bw',
+		exif.PostCropVignetteMidpoint.description,
+		0,
+		100
+	)}
+	${sliderCell(
+		'Roundness',
+		'slider-bw',
+		exif.PostCropVignetteRoundness.description,
+		-100,
+		+100
+	)}
+	${sliderCell(
+		'Feather',
+		'slider-bw',
+		exif.PostCropVignetteFeather.description,
+		0,
+		100
+	)}
+	${sliderCell(
+		'Highlights',
+		'slider-bw',
+		exif.PostCropVignetteHighlightContrast.description,
+		0,
+		100
+	)}
+	</div>
 	<div class="cell">Grain</div>
-	Amount
-	Size
-	Randomness
+	${sliderCell('Amount', 'slider-bw', exif.GrainAmount.description, 0, 100)}
+	${sliderCell('Size', 'slider-bw', exif.GrainSize.description, 0, 100)}
+	${sliderCell('Frequency', 'slider-bw', exif.GrainFrequency.description, 0, 100)}
 	</div>
 	<div class="block">
 	<span class="label">Calibration</span>
-	<div class="cell">Shadow Tint</div>
-	<div class="cell">R / G / B</div>
-	Hue
-	Saturation
+	<div>
+	${sliderCell(
+		'Shadow Tint',
+		'slider-bw',
+		exif.ShadowTint.description,
+		-100,
+		+100
+	)}
+	</div>
+	<div>
+	<span class="label">Red</span>
+	${sliderCell(
+		'Hue',
+		'slider-magentaorange',
+		exif.RedHue.description,
+		-100,
+		+100
+	)}
+	${sliderCell(
+		'Saturation',
+		'slider-blackred',
+		exif.RedSaturation.description,
+		-100,
+		+100
+	)}
+	<span class="label">Green</span>
+	${sliderCell('Hue', 'slider-yellowaqua', exif.GreenHue.description, -100, +100)}
+	${sliderCell(
+		'Saturation',
+		'slider-blackgreen',
+		exif.GreenSaturation.description,
+		-100,
+		+100
+	)}
+	<span class="label">Blue</span>
+	${sliderCell('Hue', 'slider-aquapurple', exif.BlueHue.description, -100, +100)}
+	${sliderCell(
+		'Saturation',
+		'slider-blackblue',
+		exif.BlueSaturation.description,
+		-100,
+		+100
+	)}
+	</div>
 	</div>
 	`
 }

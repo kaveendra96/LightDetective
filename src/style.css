@@ -143,8 +143,8 @@ a {
 }
 
 .block{
-	margin-bottom: .4rem;
-	padding-bottom: .4rem;
+	margin-bottom: .75rem;
+	padding-bottom: .75rem;
 	border-bottom: 2px dotted #2c2c2e;
 	break-inside: avoid;
 }
@@ -201,6 +201,7 @@ h2{
 
 .label{
 	font-size: 0.8rem;
+	line-height: 1.6rem;
 	display: block;
 	color: #4c4c53;
 }
@@ -208,6 +209,117 @@ h2{
 footer{
 	margin-top: 5rem;
 	color: #4c4c53;
+}
+
+/* Sliders */
+input{
+	background: #111;
+}
+
+input[type=range] {
+  -webkit-appearance: none;
+  width: 100%;
+  margin: 6px 0;
+	outline: none;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 5px;
+  background: #4c4c53;
+  border-radius: 25px;
+  border: none;
+}
+input[type=range]::-webkit-slider-thumb {
+  border: none;
+  height: 10px;
+  width: 10px;
+  border-radius: 50px;
+  background: #e2e2ee;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -3px;
+}
+
+input[type=range]::-moz-range-track {
+  width: 100%;
+  height: 5px;
+  background: #4c4c53;
+  border-radius: 25px;
+  border: none;
+}
+input[type=range]::-moz-range-thumb {
+  border: none;
+  height: 10px;
+  width: 10px;
+  border-radius: 50px;
+  background: #e2e2ee;
+  cursor: pointer;
+}
+input[type=range]::-ms-track {
+  width: 100%;
+  height: 5px;
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+input[type=range]::-ms-fill-lower {
+  background: #4c4c53;
+  border: none;
+  border-radius: 50px;
+}
+input[type=range]::-ms-fill-upper {
+  background: #4c4c53;
+  border: none;
+  border-radius: 50px;
+}
+input[type=range]::-ms-thumb {
+  border: none;
+  height: 10px;
+  width: 10px;
+  border-radius: 50px;
+  background: #e2e2ee;
+  height: 10px;
+}
+input[type=range]:focus::-ms-fill-lower {
+  background: #4c4c53;
+}
+input[type=range]:focus::-ms-fill-upper {
+  background: #4c4c53;
+}
+
+.slider-aquapurple{
+
+}
+.slider-blackblue{
+
+}
+.slider-blackgreen{
+
+}
+.slider-blackred{
+
+}
+.slider-bw{
+
+}
+.slider-magentaorange{
+
+}
+.slider-temperature{
+
+}
+.slider-tint{
+
+}
+.slider-value{
+
+}
+.slider-whiteblack{
+
+}
+.slider-yellowaqua{
+
 }
 
 @media screen and (max-width: 960px){
