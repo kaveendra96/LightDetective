@@ -66,14 +66,14 @@ export function settings(exif) {
 	return `
 	<h3>Settings</h3>
 	${
-		exif.Look
+		"Look" in exif
 			? '<div class="block">' +
 			  '<span class="label">Look</span>' +
 			  '<div class="cell">' +
 			  exif.Look.value.Name.description +
 			  '</div>'
 			: '',
-		exif.Look.Amount ?
+		"Look.Amount" in exif ?
 		sliderCell(
 			'Amount',
 			'slider-bw',
