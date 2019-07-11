@@ -13,8 +13,6 @@ export default (exif, filename) => {
 	<div class="data">${exif.MaxApertureValue.description}</div>
 	<span class="label">ISO</span>
 	<div class="data">${exif.ISOSpeedRatings.description}</div>
-	<span class="label">White Balance</span>
-	<div class="data">${exif.WhiteBalance.description}</div>
 	<span class="label">Exposure Mode</span>
 	<div class="data">${exif.ExposureMode.description}</div>
 	<span class="label">Flash</span>
@@ -41,6 +39,29 @@ function sliderCell(label, sliderClass, value, min, max) {
 	`
 }
 
+// function renderToneCurve(curve){
+// // 0: {value: "0, 39", attributes: {…}, description: "0, 39"}
+// // 1: {value: "27, 43", attributes: {…}, description: "27, 43"}
+// // 2: {value: "97, 92", attributes: {…}, description: "97, 92"}
+// // 3: {value: "167, 163", attributes: {…}, description: "167, 163"}
+// // 4: {value: "233, 255", attributes: {…}, description: "233, 255"}
+// 	let output = "M"
+// 	const xyMatch = /(\d{1,3}), (\d{1,3})/
+// 	curve.value.map((point , index) => {
+// 		const [_, ...values] = point.description.match(xyMatch)
+// 		//TODO: FInish curves
+// 		let c = calcControlPoint(curve.value[index-1] || ())
+// 		values.push(c)
+// 		const[y, x, c] = values.map((value, index) => {
+// 			return (1 - value/255) * 300
+// 		})
+
+// 		output += `${300-y},${x} `
+// 	})
+// 	console.log(output)
+// 	return output
+// }
+
 export function settings(exif) {
 	return `
 	<h3>Settings</h3>
@@ -50,15 +71,16 @@ export function settings(exif) {
 			  '<span class="label">Look</span>' +
 			  '<div class="cell">' +
 			  exif.Look.value.Name.description +
-			  '</div>' +
-			  sliderCell(
-					'Amount',
-					'slider-bw',
-					Math.round(exif.Look.value.Amount.description * 10) / 10,
-					0,
-					1
-			  )
-			: ''
+			  '</div>'
+			: '',
+		exif.Look.Amount ?
+		sliderCell(
+			'Amount',
+			'slider-bw',
+			Math.round(exif.Look.value.Amount.description * 10) / 10,
+			0,
+			1
+		) : ''
 	}
 	</div>
 	<div class="block">
@@ -108,6 +130,14 @@ export function settings(exif) {
 	</div>
 	<div class="block">
 	<span class="label">Curves</span>
+	<div>
+	<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300">
+	<rect width="100%" height="33%" y="33%" fill="none" stroke="#4c4c53" stroke-width="1" stroke-dasharray="4,4" />>
+	<rect width="33%" height="100%" x="33%" fill="none" stroke="#4c4c53" stroke-width="1" stroke-dasharray="4,4" />
+	<path id="luminance-curve" stroke="#e2e2ee" stroke-width="1" d=""/>
+	<rect width="100%" height="100%" fill="none" stroke="#e2e2ee" stroke-width="4" />
+	</svg>
+	</div>
 	</div>
 	<div class="block">
 	<span class="label">HSL</span>

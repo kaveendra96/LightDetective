@@ -1,6 +1,7 @@
 import template from './lib/template'
 import meta, { settings } from './lib/meta'
 
+
 const resultContainer = document.querySelector('.result-container')
 let metaDataContainer = document.querySelector('.meta')
 let settingsDataContainer = document.querySelector('.settings')
@@ -1055,6 +1056,8 @@ const exifData = {
 	},
 	"UUID": { "description": "F5F9A7C7C61A4308874AECBEBF1DC484" }
 }
+
+console.log(exifData)
 const filename = 'TestingThisSite.jpg'
 
 let filledTemplate
