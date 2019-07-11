@@ -286,6 +286,9 @@ input {
 .slider-yellowaqua::range-track {
 	background: linear-gradient(90deg, yellow, aqua);
 }
+.slider-rainbow::range-track {
+	background: linear-gradient(to right, red, orange , yellow, lime, aqua, blue, purple, magenta);
+}
 
 @media screen and (max-width: 960px) {
 	.retry {

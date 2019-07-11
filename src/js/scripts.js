@@ -2,6 +2,7 @@ import ExifReader from "exifreader"
 import { saveAs } from "file-saver"
 import template from "./lib/template"
 import meta, {settings} from "./lib/meta"
+import {fixOutdated} from "./lib/properties"
 
 const dropArea = document.querySelector("#drop")
 const resultContainer = document.querySelector(".result-container")
@@ -71,6 +72,7 @@ imageReader.onload = () => {
 exifDataReader.onload = () => {
 	try{
 		let exifData = ExifReader.load(exifDataReader.result)
+		exifData = fixOutdated(exifData)
 		exifData.UUID = {
 			description: createUUID()
 		}
