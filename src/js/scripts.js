@@ -84,6 +84,7 @@ exifDataReader.onload = () => {
 		settingsDataContainer.innerHTML = settingsData
 		filledTemplate = template(exifData, filename)
 	} catch(err) {
+		console.error("There has been an issue reading necessary data. It is as follows: ")
 		console.error(err)
 		resultContainer.innerHTML = `<h3>Ouch, either no EXIF data to be found here or an issue.</h3>
 		<br/>

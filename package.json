@@ -21,13 +21,13 @@
   "license": "ISC",
   "devDependencies": {
     "babel-preset-env": "^1.7.0",
-    "parcel-bundler": "^1.12.3"
+    "parcel-bundler": "^1.12.4"
   },
   "dependencies": {
-    "@babel/core": "^7.5.0",
-    "@babel/preset-env": "^7.5.2",
-    "autoprefixer": "^9.6.1",
-    "exifreader": "^2.8.2",
+    "@babel/core": "^7.10.5",
+    "@babel/preset-env": "^7.10.4",
+    "autoprefixer": "^9.8.5",
+    "exifreader": "^3.12.0",
     "file-saver": "^2.0.2",
     "postcss-input-range": "^4.0.0"
   },
