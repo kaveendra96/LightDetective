@@ -5,6 +5,7 @@ import meta, {settings} from "./lib/meta"
 import {fixOutdated} from "./lib/properties"
 
 const dropArea = document.querySelector("#drop")
+const disclaimer = document.querySelector(".disclaimer")
 const resultContainer = document.querySelector(".result-container")
 const retry = document.querySelector(".retry")
 const download = document.querySelector(".download")
@@ -64,6 +65,7 @@ export function processFile(file) {
 
 imageReader.onload = () => {
 	dropArea.classList.add("hidden")
+	disclaimer.classList.add("hidden")
 	resultContainer.classList.remove("hidden")
 	headerImage.style.background=`linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,1)) top center, url(${imageReader.result}) center`
 	headerImage.style.backgroundSize = "cover, cover"
@@ -76,7 +78,7 @@ exifDataReader.onload = () => {
 		exifData.UUID = {
 			description: createUUID()
 		}
-		if (!exifData.ProcessVersion) throw new Error()
+		if (!exifData.ProcessVersion) exifData.ProcessVersion = "11.0"
 		console.log(exifData)
 		let metaData = meta(exifData, filename)
 		metaDataContainer.innerHTML = metaData

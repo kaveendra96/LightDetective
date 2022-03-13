@@ -8,9 +8,8 @@
     "url": "https://github.com/leifniem/LightDetective.git"
   },
   "scripts": {
-    "dev": "parcel src/index.html --global Transfer",
-    "devResults": "parcel src/index.html src/results-testing.html --global Transfer",
-    "build": "rm -rf dist; parcel build src/index.html --global Transfer"
+    "dev": "vite",
+    "build": "vite build"
   },
   "keywords": [
     "lightroom",
@@ -20,15 +19,15 @@
   "author": "Leif Niemczik",
   "license": "ISC",
   "devDependencies": {
-    "babel-preset-env": "^1.7.0",
-    "parcel-bundler": "^1.12.4"
+    "postcss-preset-env": "^7.4.2",
+    "vite": "^2.8.6"
   },
   "dependencies": {
-    "@babel/core": "^7.10.5",
-    "@babel/preset-env": "^7.10.4",
-    "autoprefixer": "^9.8.5",
-    "exifreader": "^3.12.0",
-    "file-saver": "^2.0.2",
+    "@babel/core": "^7.17.5",
+    "@babel/preset-env": "^7.16.11",
+    "autoprefixer": "^10.4.2",
+    "exifreader": "^4.3.1",
+    "file-saver": "^2.0.5",
     "postcss-input-range": "^4.0.0"
   },
   "browserslist": [
@@ -39,5 +38,6 @@
     "presets": [
       "env"
     ]
-  }
+  },
+  "packageManager": "yarn@3.2.0"
 }

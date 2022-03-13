@@ -4,19 +4,19 @@ export default (exif, filename) => {
 	<span class="label">Filename</span>
 	<div class="data">${filename}</div>
 	<span class="label">Camera</span>
-	<div class="data">${exif.Make.description} ${exif.Model.description}</div>
+	<div class="data">${exif.Make?.value ?? exif.Make?.description ?? "Not available"} ${exif.Model?.value ?? exif.Model?.description ?? ""}</div>
 	<span class="label">Lens</span>
-	<div class="data">${exif.Lens.description}</div>
+	<div class="data">${exif.Lens?.value ?? exif.Lens?.description ?? "Not available"}</div>
 	<span class="label">Exposure Time</span>
-	<div class="data">1/${1 / exif.ExposureTime.description}s</div>
+	<div class="data">${"ExposureTime" in exif ? exif.ExposureTime?.description + "s" : "Not available"}</div>
 	<span class="label">Aperture</span>
-	<div class="data">${exif.MaxApertureValue.description}</div>
+	<div class="data">${exif.ApertureValue?.description ?? "Not available"}</div>
 	<span class="label">ISO</span>
-	<div class="data">${exif.ISOSpeedRatings.description}</div>
+	<div class="data">${exif.ISOSpeedRatings?.description ?? "Not available"}</div>
 	<span class="label">Exposure Mode</span>
-	<div class="data">${exif.ExposureMode.description}</div>
+	<div class="data">${exif.ExposureMode?.description ?? "Not available"}</div>
 	<span class="label">Flash</span>
-	<div class="data">${exif.Flash.description}</div>
+	<div class="data">${exif.Flash?.description ?? "Not available"}</div>
 	`
 }
 
@@ -39,78 +39,80 @@ function sliderCell(label, sliderClass, value, min, max) {
 	`
 }
 
-// function renderToneCurve(curve){
-// // 0: {value: "0, 39", attributes: {…}, description: "0, 39"}
-// // 1: {value: "27, 43", attributes: {…}, description: "27, 43"}
-// // 2: {value: "97, 92", attributes: {…}, description: "97, 92"}
-// // 3: {value: "167, 163", attributes: {…}, description: "167, 163"}
-// // 4: {value: "233, 255", attributes: {…}, description: "233, 255"}
-// 	let output = "M"
-// 	const xyMatch = /(\d{1,3}), (\d{1,3})/
-// 	curve.value.map((point , index) => {
-// 		const [_, ...values] = point.description.match(xyMatch)
-// 		//TODO: FInish curves
-// 		let c = calcControlPoint(curve.value[index-1] || ())
-// 		values.push(c)
-// 		const[y, x, c] = values.map((value, index) => {
-// 			return (1 - value/255) * 300
-// 		})
+function renderToneCurves(curve, color) {
+	let path = ""
+	let points = ""
+	for (let i = 0; i < curve.value.length - 1; i++) {
+		const current = stringToXY(curve.value[i].value)
+		const next = stringToXY(curve.value[i + 1].value);
+		if (i == 0) {
+			const nextplus = stringToXY(curve.value[i + 1].value);
+			const c1 = [current[0] -  (nextplus[1] - next[1]) / Math.PI, current[1] + (nextplus[0] - next[0]) / Math.PI]
+			const c2 = [nextplus[0] - (nextplus[0] - next[0]) / Math.PI, nextplus[1] - (nextplus[1] - next[1]) / Math.PI]
+			path += `M ${current.join(",")} C ${c1} ${c2} ${next.join(",")}`
+		} else {
+			const prev = stringToXY(curve.value[i - 1].value);
+			const c1 = [current[0] + (current[0] - prev[0]) / Math.PI, current[1] + (current[1] - prev[1]) / Math.PI]
+			const c2 = [next[0] - (next[0] - current[0]) / Math.PI, next[1] - (next[1] - current[1]) / Math.PI]
+			path += `M ${current.join(",")} C ${c1} ${c2} ${next.join(",")} `
+		}
+	}
+	curve.value.forEach(point => {
+		const pos = stringToXY(point.value)
+		points += `<circle cx="${pos[0]}" cy="${pos[1]}" r="3" fill="${color}" />`
+	})
 
-// 		output += `${300-y},${x} `
-// 	})
-// 	console.log(output)
-// 	return output
-// }
+	return `<path d="${path}" stroke="${color}" stroke-width="1" fill="none" />${points}`
+}
+
+function stringToXY(input) {
+	let vals = input.split(",").map(v => parseInt(v))
+	vals[1] = 255 - vals[1]
+	return vals
+}
 
 export function settings(exif) {
 	return `
 	<h3>Settings</h3>
-	${
-		"Look" in exif
-			? '<div class="block">' +
-			  '<span class="label">Look</span>' +
-			  '<div class="cell">' +
-			  exif.Look.value.Name.description +
-			  '</div>'
-			: '',
-		"Look.Amount" in exif ?
-		sliderCell(
-			'Amount',
-			'slider-bw',
-			Math.round(exif.Look.value.Amount.description * 10) / 10,
-			0,
-			1
-		) : ''
+	${"Look" in exif
+			? `<div class="block">
+			<span class="label">Look</span>` +
+			exif.Look.value.Name.value  + sliderCell(
+				'Amount',
+				'slider-bw',
+				Math.round(parseFloat(exif.Look.value.Amount.value) * 100),
+				0,
+				200
+			)
+			: ''
 	}
-	</div>
-	<div class="block">
 	<span class="label">White Balance</span>
 	${exif.WhiteBalance.description}
 	${sliderCell(
-		'Temp',
-		'slider-temperature',
-		exif.Temperature.description,
-		2000,
-		50000
-	)}
-	${sliderCell('Tint', 'slider-tint', exif.Tint.description, -150, +150)}
+			'Temp',
+			'slider-temperature',
+			exif.Temperature?.description ?? exif.IncrementalTemperature.description,
+			"Temperature" in exif ? 2000 : -100,
+			"Temperature" in exif ? 50000 : 100
+		)}
+	${sliderCell('Tint', 'slider-tint', exif.Tint?.description ?? exif.IncrementalTint.description, "Tint" in exif ? -150 : -100, "Tint" in exif ? 150 : 100)}
 	</div>
 	<div class="block">
 	${sliderCell('Exposure', 'slider-bw', exif.Exposure2012.description, -5, +5)}
 	${sliderCell(
-		'Contrast',
-		'slider-bw',
-		exif.Contrast2012.description,
-		-100,
-		+100
-	)}
+			'Contrast',
+			'slider-bw',
+			exif.Contrast2012.description,
+			-100,
+			+100
+		)}
 	${sliderCell(
-		'Highlights',
-		'slider-bw',
-		exif.Highlights2012.description,
-		-100,
-		+100
-	)}
+			'Highlights',
+			'slider-bw',
+			exif.Highlights2012.description,
+			-100,
+			+100
+		)}
 	${sliderCell('Shadows', 'slider-bw', exif.Shadows2012.description, -100, +100)}
 	${sliderCell('Whites', 'slider-bw', exif.Whites2012.description, -100, +100)}
 	${sliderCell('Blacks', 'slider-bw', exif.Blacks2012.description, -100, +100)}
@@ -121,21 +123,24 @@ export function settings(exif) {
 	${sliderCell('Dehaze', 'slider-bw', exif.Dehaze.description, -100, +100)}
 	${sliderCell('Vibrance', 'slider-bw', exif.Vibrance.description, -100, +100)}
 	${sliderCell(
-		'Saturation',
-		'slider-bw',
-		exif.Saturation.description,
-		-100,
-		+100
-	)}
+			'Saturation',
+			'slider-bw',
+			exif.Saturation.description,
+			-100,
+			+100
+		)}
 	</div>
 	<div class="block">
 	<span class="label">Curves</span>
 	<div>
-	<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300">
+	<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 255 255">
 	<rect width="100%" height="33%" y="33%" fill="none" stroke="#4c4c53" stroke-width="1" stroke-dasharray="4,4" />>
 	<rect width="33%" height="100%" x="33%" fill="none" stroke="#4c4c53" stroke-width="1" stroke-dasharray="4,4" />
-	<path id="luminance-curve" stroke="#e2e2ee" stroke-width="1" d=""/>
-	<rect width="100%" height="100%" fill="none" stroke="#e2e2ee" stroke-width="4" />
+	<rect width="100%" height="100%" fill="none" stroke="#4c4c53" stroke-width="4" />
+	${renderToneCurves(exif.ToneCurvePV2012Blue, "blue")}
+	${renderToneCurves(exif.ToneCurvePV2012Green, "green")}
+	${renderToneCurves(exif.ToneCurvePV2012Red, "red")}
+	${renderToneCurves(exif.ToneCurvePV2012, "white")}
 	</svg>
 	</div>
 	</div>
@@ -180,42 +185,42 @@ export function settings(exif) {
 	<span class="label">Split Toning</span>
 	<span class="label">Shadows</span>
 	${sliderCell(
-		'Hue',
-		'slider-rainbow',
-		exif.SplitToningShadowHue.description,
-		0,
-		+100
-	)}
+			'Hue',
+			'slider-rainbow',
+			exif.SplitToningShadowHue.description,
+			0,
+			+100
+		)}
 	${sliderCell(
-		'Saturation',
-		'slider-blackred',
-		exif.SplitToningShadowSaturation.description,
-		0,
-		+100
-	)}
+			'Saturation',
+			'slider-blackred',
+			exif.SplitToningShadowSaturation.description,
+			0,
+			+100
+		)}
 	<span class="label">Highlights</span>
 	${sliderCell(
-		'Hue',
-		'slider-rainbow',
-		exif.SplitToningHighlightHue.description,
-		-100,
-		+100
-	)}
+			'Hue',
+			'slider-rainbow',
+			exif.SplitToningHighlightHue.description,
+			-100,
+			+100
+		)}
 	${sliderCell(
-		'Saturation',
-		'slider-blackred',
-		exif.SplitToningHighlightSaturation.description,
-		-100,
-		+100
-	)}
+			'Saturation',
+			'slider-blackred',
+			exif.SplitToningHighlightSaturation.description,
+			-100,
+			+100
+		)}
 	<span class="label">Balance</span>
 	${sliderCell(
-		'Balance',
-		'slider-bw',
-		exif.SplitToningBalance.description,
-		-100,
-		+100
-	)}
+			'Balance',
+			'slider-bw',
+			exif.SplitToningBalance.description,
+			-100,
+			+100
+		)}
 	</div>
 	<div class="block">
 	<span class="label">Details</span>
@@ -224,233 +229,218 @@ export function settings(exif) {
 	${sliderCell('Radius', 'slider-bw', exif.SharpenRadius.description, 0.0, 3.0)}
 	${sliderCell('Detail', 'slider-bw', exif.SharpenDetail.description, 0, 100)}
 	${sliderCell(
-		'Masking',
-		'slider-whiteblack',
-		exif.SharpenEdgeMasking.description,
-		0,
-		100
-	)}
+			'Masking',
+			'slider-whiteblack',
+			exif.SharpenEdgeMasking.description,
+			0,
+			100
+		)}
 	<div class="cell">Noise Reduction</div>
 	<span class="label">Luminosity</span>
 	${sliderCell(
-		'Amount',
-		'slider-bw',
-		exif.LuminanceSmoothing.description,
-		0,
-		100
-	)}
-	${
-		exif['LuminanceNoiseReductionDetail']
+			'Amount',
+			'slider-bw',
+			exif.LuminanceSmoothing.description,
+			0,
+			100
+		)}
+	${exif['LuminanceNoiseReductionDetail']
 			? sliderCell(
-					'Detail',
-					'slider-bw',
-					exif.LuminanceNoiseReductionDetail.description,
-					0,
-					100
-			  )
+				'Detail',
+				'slider-bw',
+				exif.LuminanceNoiseReductionDetail.description,
+				0,
+				100
+			)
 			: ''
-	}
-	${
-		exif['LuminanceNoiseReductionContrast']
+		}
+	${exif['LuminanceNoiseReductionContrast']
 			? sliderCell(
-					'Contrast',
-					'slider-bw',
-					exif.LuminanceNoiseReductionContrast.description,
-					0,
-					100
-			  )
+				'Contrast',
+				'slider-bw',
+				exif.LuminanceNoiseReductionContrast.description,
+				0,
+				100
+			)
 			: ''
-	}
+		}
 	<div class="cell">Color</div>
 	<span class="label">Color</span>
-	${sliderCell(
-		'Amount',
-		'slider-bw',
-		exif.ColorNoiseReduction.description,
-		0,
-		100
-	)}
-	${sliderCell(
-		'Detail',
-		'slider-bw',
-		exif.ColorNoiseReductionDetail.description,
-		0,
-		100
-	)}
-	${sliderCell(
-		'Smoothness',
-		'slider-bw',
-		exif.ColorNoiseReductionSmoothness.description,
-		0,
-		100
-	)}
+	${"ColorNoiseReduction" in exif ? sliderCell(
+			'Amount',
+			'slider-bw',
+			exif.ColorNoiseReduction.description,
+			0,
+			100
+		) : ''}
+	${"ColorNoiseReductionDetail" in exif ? sliderCell(
+			'Detail',
+			'slider-bw',
+			exif.ColorNoiseReductionDetail.description,
+			0,
+			100
+		) : ''}
+	${"ColorNoiseReductionSmoothness" in exif ? sliderCell(
+			'Smoothness',
+			'slider-bw',
+			exif.ColorNoiseReductionSmoothness.description,
+			0,
+			100
+		) : ''}
 	</div>
 	<div class="block">
 	<span class="label">Corrections</span>
 	<span class="label">Lens Correction</span>
-		<div class="cell">Distortion <span>${
-			exif.DistortionCorrectionAlreadyApplied
-				? exif.DistortionCorrectionAlreadyApplied.description
-				: 'False'
+		<div class="cell">Distortion <span>${exif.DistortionCorrectionAlreadyApplied
+			? exif.DistortionCorrectionAlreadyApplied.description
+			: 'False'
 		}</span></div>
-		<div class="cell">Vignette <span>${
-			exif.VignetteCorrectionAlreadyApplied
-				? exif.VignetteCorrectionAlreadyApplied.description
-				: 'False'
+		<div class="cell">Vignette <span>${exif.VignetteCorrectionAlreadyApplied
+			? exif.VignetteCorrectionAlreadyApplied.description
+			: 'False'
 		}</span></div>
-		<div class="cell">CA <span>${
-			exif.LateralChromaticAberrationCorrectionAlreadyApplied
-				? exif.LateralChromaticAberrationCorrectionAlreadyApplied
-						.description
-				: 'False'
+		<div class="cell">CA <span>${exif.LateralChromaticAberrationCorrectionAlreadyApplied
+			? exif.LateralChromaticAberrationCorrectionAlreadyApplied
+				.description
+			: 'False'
 		}</span></div>
-		<div class="cell">Upright <span>${
-			parseInt(exif.PerspectiveUpright.description) >= 1
-				? 'True'
-				: 'False'
+		<div class="cell">Upright <span>${parseInt(exif.PerspectiveUpright.description) >= 1
+			? 'True'
+			: 'False'
 		}</span></div>
 	</div>
 	<div class="block">
 	<span class="label">Effects</span>
 	<div>
 	<span class="label">Vignette</span>
-	${
-		exif.PostCropVignetteAmount
+	${exif.PostCropVignetteAmount
 			? sliderCell(
-					'Amount',
-					'slider-bw',
-					exif.PostCropVignetteAmount.description,
-					-100,
-					+100
-			  )
+				'Amount',
+				'slider-bw',
+				exif.PostCropVignetteAmount.description,
+				-100,
+				+100
+			)
 			: ''
-	}
-	${
-		exif.PostCropVignetteMidpoint
+		}
+	${exif.PostCropVignetteMidpoint
 			? sliderCell(
-					'Midpoint',
-					'slider-bw',
-					exif.PostCropVignetteMidpoint.description,
-					0,
-					100
-			  )
+				'Midpoint',
+				'slider-bw',
+				exif.PostCropVignetteMidpoint.description,
+				0,
+				100
+			)
 			: ''
-	}
-	${
-		exif.PostCropVignetteRoundness
+		}
+	${exif.PostCropVignetteRoundness
 			? sliderCell(
-					'Roundness',
-					'slider-bw',
-					exif.PostCropVignetteRoundness.description,
-					-100,
-					+100
-			  )
+				'Roundness',
+				'slider-bw',
+				exif.PostCropVignetteRoundness.description,
+				-100,
+				+100
+			)
 			: ''
-	}
-	${
-		exif.PostCropVignetteFeather
+		}
+	${exif.PostCropVignetteFeather
 			? sliderCell(
-					'Feather',
-					'slider-bw',
-					exif.PostCropVignetteFeather.description,
-					0,
-					100
-			  )
+				'Feather',
+				'slider-bw',
+				exif.PostCropVignetteFeather.description,
+				0,
+				100
+			)
 			: ''
-	}
-	${
-		exif.PostCropVignetteHighlightContrast
+		}
+	${exif.PostCropVignetteHighlightContrast
 			? sliderCell(
-					'Highlights',
-					'slider-bw',
-					exif.PostCropVignetteHighlightContrast.description,
-					0,
-					100
-			  )
+				'Highlights',
+				'slider-bw',
+				exif.PostCropVignetteHighlightContrast.description,
+				0,
+				100
+			)
 			: ''
-	}
+		}
 	</div>
 	<div class="cell">Grain</div>
-	${
-		exif.GrainAmount
+	${exif.GrainAmount
 			? sliderCell(
-					'Amount',
-					'slider-bw',
-					exif.GrainAmount.description,
-					0,
-					100
-			  )
+				'Amount',
+				'slider-bw',
+				exif.GrainAmount.description,
+				0,
+				100
+			)
 			: ''
-	}
-	${
-		exif.GrainSize
+		}
+	${exif.GrainSize
 			? sliderCell(
-					'Size',
-					'slider-bw',
-					exif.GrainSize.description,
-					0,
-					100
-			  )
+				'Size',
+				'slider-bw',
+				exif.GrainSize.description,
+				0,
+				100
+			)
 			: ''
-	}
-	${
-		exif.GrainFrequency
+		}
+	${exif.GrainFrequency
 			? sliderCell(
-					'Frequency',
-					'slider-bw',
-					exif.GrainFrequency.description,
-					0,
-					100
-			  )
+				'Frequency',
+				'slider-bw',
+				exif.GrainFrequency.description,
+				0,
+				100
+			)
 			: ''
-	}
+		}
 	</div>
 	<div class="block">
 	<span class="label">Calibration</span>
 	<div>
 	${sliderCell(
-		'Shadow Tint',
-		'slider-bw',
-		exif.ShadowTint.description,
-		-100,
-		+100
-	)}
+			'Shadow Tint',
+			'slider-bw',
+			exif.ShadowTint.description,
+			-100,
+			+100
+		)}
 	</div>
 	<div>
 	<span class="label">Red</span>
 	${sliderCell(
-		'Hue',
-		'slider-magentaorange',
-		exif.RedHue.description,
-		-100,
-		+100
-	)}
+			'Hue',
+			'slider-magentaorange',
+			exif.RedHue.description,
+			-100,
+			+100
+		)}
 	${sliderCell(
-		'Saturation',
-		'slider-blackred',
-		exif.RedSaturation.description,
-		-100,
-		+100
-	)}
+			'Saturation',
+			'slider-blackred',
+			exif.RedSaturation.description,
+			-100,
+			+100
+		)}
 	<span class="label">Green</span>
 	${sliderCell('Hue', 'slider-yellowaqua', exif.GreenHue.description, -100, +100)}
 	${sliderCell(
-		'Saturation',
-		'slider-blackgreen',
-		exif.GreenSaturation.description,
-		-100,
-		+100
-	)}
+			'Saturation',
+			'slider-blackgreen',
+			exif.GreenSaturation.description,
+			-100,
+			+100
+		)}
 	<span class="label">Blue</span>
 	${sliderCell('Hue', 'slider-aquapurple', exif.BlueHue.description, -100, +100)}
 	${sliderCell(
-		'Saturation',
-		'slider-blackblue',
-		exif.BlueSaturation.description,
-		-100,
-		+100
-	)}
-	</div>
+			'Saturation',
+			'slider-blackblue',
+			exif.BlueSaturation.description,
+			-100,
+			+100
+		)}
 	</div>
 	`
 }

@@ -1,6 +1,10 @@
+
 module.exports = {
-  plugins: [
-    require('autoprefixer'),
-    require('postcss-input-range')
-  ]
+	plugins: [
+		require('postcss-preset-env', {
+			stage: 0,
+		}),
+		require('autoprefixer'),
+		require('postcss-input-range')
+	]
 }
