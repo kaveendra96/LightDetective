@@ -1,10 +1,11 @@
 import ExifReader from "exifreader"
 import { saveAs } from "file-saver"
 import template from "./lib/template"
-import meta, {settings} from "./lib/meta"
-import {fixOutdated} from "./lib/properties"
+import meta, { settings } from "./lib/meta"
+import { fixOutdated } from "./lib/properties"
 
 const dropArea = document.querySelector("#drop")
+const imageInput = document.querySelector("#image-input")
 const disclaimer = document.querySelector(".disclaimer")
 const resultContainer = document.querySelector(".result-container")
 const retry = document.querySelector(".retry")
@@ -20,59 +21,63 @@ const imageReader = new FileReader()
 let filledTemplate
 let filename
 
-;["dragenter", "dragover"].forEach(eventName => {
-  dropArea.addEventListener(eventName, addHighlight, false)
-})
+	;["dragenter", "dragover"].forEach(eventName => {
+		dropArea.addEventListener(eventName, addHighlight, false)
+	})
 
-;["dragleave", "drop"].forEach(eventName => {
-  dropArea.addEventListener(eventName, removeHighlight, false)
-})
+	;["dragleave", "drop"].forEach(eventName => {
+		dropArea.addEventListener(eventName, removeHighlight, false)
+	})
 
-;["dragenter", "dragover", "dragleave", "drop"].forEach(eventName => {
-  dropArea.addEventListener(eventName, preventDefaults, false)
-})
+	;["dragenter", "dragover", "dragleave", "drop"].forEach(eventName => {
+		dropArea.addEventListener(eventName, preventDefaults, false)
+	})
 
-function preventDefaults (e) {
-  e.preventDefault()
-  e.stopPropagation()
+	imageInput.addEventListener('change', (e) => {
+		processFile(e.target.files[0])
+	})
+
+function preventDefaults(e) {
+	e.preventDefault()
+	e.stopPropagation()
 }
 
 dropArea.addEventListener("drop", getFile, false)
 
-retry.addEventListener("click", () => {location.reload()}, false)
+retry.addEventListener("click", () => { location.reload() }, false)
 
 download.addEventListener("click", downloadPreset, false)
 
 function addHighlight(e) {
-  dropArea.classList.add("highlight")
+	dropArea.classList.add("highlight")
 }
 
 function removeHighlight(e) {
-  dropArea.classList.remove("highlight")
+	dropArea.classList.remove("highlight")
 }
 
-function getFile(e){
+function getFile(e) {
 	const dt = e.dataTransfer
 	processFile(dt.files[0])
 }
 
-export function processFile(file) {
+function processFile(file) {
 	dropArea.classList.add("loading")
 	filename = file.name
 	imageReader.readAsDataURL(file)
-  exifDataReader.readAsArrayBuffer(file)
+	exifDataReader.readAsArrayBuffer(file)
 }
 
 imageReader.onload = () => {
 	dropArea.classList.add("hidden")
 	disclaimer.classList.add("hidden")
 	resultContainer.classList.remove("hidden")
-	headerImage.style.background=`linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,1)) top center, url(${imageReader.result}) center`
+	headerImage.style.background = `linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,1)) top center, url(${imageReader.result}) center`
 	headerImage.style.backgroundSize = "cover, cover"
 }
 
 exifDataReader.onload = () => {
-	try{
+	try {
 		let exifData = ExifReader.load(exifDataReader.result)
 		exifData = fixOutdated(exifData)
 		exifData.UUID = {
@@ -85,7 +90,7 @@ exifDataReader.onload = () => {
 		let settingsData = settings(exifData)
 		settingsDataContainer.innerHTML = settingsData
 		filledTemplate = template(exifData, filename)
-	} catch(err) {
+	} catch (err) {
 		console.error("There has been an issue reading necessary data. It is as follows: ")
 		console.error(err)
 		resultContainer.innerHTML = `<h3>Ouch, either no EXIF data to be found here or an issue.</h3>
@@ -94,25 +99,17 @@ exifDataReader.onload = () => {
 	}
 }
 
-function downloadPreset () {
-	let fileURL = null
-	link.href=null
-	let data = new Blob([filledTemplate], {type: 'application/rdf+xml'})
-	// if (fileURL !== null) {
-	// 	window.URL.revokeObjectURL(fileURL)
-	// }
-	// fileURL = window.URL.createObjectURL(data)
+function downloadPreset() {
+	let data = new Blob([filledTemplate], { type: 'application/rdf+xml' })
 	saveAs(data, `${filename.replace(/\.\w*$/, "")}.xmp`)
-	// link.href = fileURL
-	// link.click()
 }
 
-function createUUID(){
+function createUUID() {
 	var dt = new Date().getTime();
-	var uuid = 'xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-			var r = (dt + Math.random()*16)%16 | 0;
-			dt = Math.floor(dt/16);
-			return (c=='x' ? r :(r&0x3|0x8)).toString(16);
+	var uuid = 'xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+		var r = (dt + Math.random() * 16) % 16 | 0;
+		dt = Math.floor(dt / 16);
+		return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
 	});
 	return uuid.toUpperCase();
 }

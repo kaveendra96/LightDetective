@@ -43,7 +43,6 @@ export function fixOutdated(exif) {
 	]
 
 	newer.map(key => {
-		console.log(key)
 		exif[key] ?  '' : exif[key] = { description: "0" }
 	})
 	return exif
